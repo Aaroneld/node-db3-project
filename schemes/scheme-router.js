@@ -20,6 +20,11 @@ router.get('/:id', (req, res) => {
   Schemes.findById(id)
   .then(scheme => {
     if (scheme) {
+
+      scheme.sort((a,b) => {
+        return a.id - b.id;
+    });
+
       res.json(scheme);
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id.' })
@@ -42,7 +47,7 @@ router.get('/:id/steps', (req, res) => {
     }
   })
   .catch(err => {
-    res.status(500).json({ message: 'Failed to get steps' });
+    res.status(500).json({ message: 'Failed to get steps', err: err.message });
   });
 });
 
@@ -94,7 +99,7 @@ router.put('/:id', (req, res) => {
     }
   })
   .catch (err => {
-    res.status(500).json({ message: 'Failed to update scheme' });
+    res.status(500).json({ message: 'Failed to update scheme', err: err.message });
   });
 });
 
